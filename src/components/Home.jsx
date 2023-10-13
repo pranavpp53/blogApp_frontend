@@ -1,105 +1,109 @@
-import React, { useContext, useEffect, useState } from 'react'
-import './home.css'
-import { Link } from 'react-router-dom'
-import TableC from './TableC'
-import Loading from './Loading'
-import { deleteContext, editContext, registerContext } from './Contextshare';
-import Alert from 'react-bootstrap/Alert';
-import { deleteEmp, getEmployees } from '../service/allapi'
+import React, { useEffect, useState } from 'react';
+import './home.css';
+import { Link } from 'react-router-dom';
+import { allPosts } from '../service/allapi';
+import BASE_URL from '../service/baseurl';
 
 function Home() {
+  const [allBlogs, setAllBlogs] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 5;
 
+  const allPostsCall = async () => {
+    const response = await allPosts();
+    setAllBlogs(response.data);
+  };
 
-  const deleteEmployee = async (id) => {
-    const res = await deleteEmp(id)
-    if (res.status == 200) {
-      setDeleteData(res.data)
-      getEmployeeCall()
+  function formatDateToDaysAgo(dateString) {
+    const date = new Date(dateString);
+    const currentDate = new Date();
+    const timeDifference = currentDate - date;
+    const minutesDifference = Math.floor(timeDifference / (1000 * 60));
+
+    if (minutesDifference < 60) {
+      return `${minutesDifference} minutes ago`;
+    } else if (minutesDifference < 1440) { // Less than 24 hours
+      const hoursDifference = Math.floor(minutesDifference / 60);
+      return `${hoursDifference} hours ago`;
+    } else if (minutesDifference < 2880) { // Less than 48 hours
+      return "Yesterday";
+    } else {
+      const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+      return `${daysDifference} days ago`;
     }
   }
-  //edit context
-  const { editData, setEditData } = useContext(editContext)
-
-
-  //store all employee data
-  const [allEmployee, setAllEmployee] = useState([])
-
-  //state to store searching data
-  const [searchKey, setSearchKey] = useState("")
-
-  //define a function to call all employee data api
-  const getEmployeeCall = async () => {
-    const response = await getEmployees(searchKey)
-    setAllEmployee(response.data);
-    // console.log(allEmployee);
-  }
-
-  //to get context
-  const { registerData, setRegisterData } = useContext(registerContext)
-
-  //get delete context
-  const { deleteData, setDeleteData } = useContext(deleteContext)
-
-
-  const [showspin, setspin] = useState(true)
 
   useEffect(() => {
-    getEmployeeCall()
-    setTimeout(() => {
-      setspin(false)
-    }, 2000)
+    allPostsCall();
+  }, []);
 
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = allBlogs.slice(indexOfFirstPost, indexOfLastPost);
 
-  }, [searchKey])
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <div>
-
-      <div>
-        {
-          registerData ? <Alert className='w-50 container mt-2 text-center' variant={"success"}
-            onClose={() => setRegisterData("")} dismissible>
-            {registerData.fname} is succussfully registered
-          </Alert> : ""
-        }
-        {
-          deleteData ? <Alert className='w-50 container mt-2 text-center' variant={"danger"}
-            onClose={() => setDeleteData("")} dismissible>
-            {deleteData.fname} is deleted ....
-          </Alert> : ""
-        }
-        {
-          editData ? <Alert className='w-50 container mt-2 text-center' variant={"success"}
-            onClose={() => setEditData("")} dismissible>
-            {editData} your data edited successfully ....
-          </Alert> : ""
-        }
-
+      {/* top view image in home */}
+      <div className="header">
+        <div className="headerTitles">
+          <span className="headerTitleLg">BLOG</span>
+        </div>
+        <img
+          className="headerImg"
+          src="https://images.pexels.com/photos/1167355/pexels-photo-1167355.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+          alt=""
+        />
       </div>
 
-      <div className='w-75 container '>
-        <form class="d-flex mt-5  ">
-          <input onChange={e => setSearchKey(e.target.value)}
-            class="form-control me-sm-2 w-25 " type="search" placeholder="Search" />
-          <button class="btn btn-primary my-2 my-sm-0 h-25" type="submit" fdprocessedid="xetxow">Search</button>
-          <Link className='text-decoration-none h-25 ms-auto ' to={'add'}>
-            <button class="btn btn-primary h-25 ms-auto " ><i class="fa-solid fa-user-plus "></i>  Add</button>
+      {/* Display current page posts */}
+      {currentPosts.map((i) => (
+        <Link to={`/singleblog/${i._id}`} className="link">
+          <div className="home-post-container" key={i.id}>
+            <div className="post mt-5">
+              <img
+                className="postImg"
+                src={`${BASE_URL}/uploads/${i.image}`}
+                alt=""
+              />
 
-          </Link>
-        </form>
+              <div className="postInfo">
+                <span className="postTitle">
+                  <Link className="link">{i.title}</Link>
+                </span>
+                <hr />
+                <div className='d-flex'>
+                  <span className='postDate me-5 '> Author : {i.author.username} </span>
+                  <span className="postDate ms-5">Posted : {formatDateToDaysAgo(i.date)}</span>
+                </div>
+              </div>
+              <p className="postDesc">{i.content}</p>
+            </div>
+          </div>
+        </Link>
+      ))}
+
+      {/* Pagination */}
+      <div className='w-100 container'>
+        <div className="pagination ">
+          {Array(Math.ceil(allBlogs.length / postsPerPage))
+            .fill()
+            .map((_, index) => (
+              <button
+                key={index}
+                onClick={() => paginate(index + 1)}
+                className={`page-button ${currentPage === index + 1 ? 'active' : ''}`}
+              >
+                {index + 1}
+              </button>
+            ))}
+        </div>
       </div>
-      {showspin ?
-        <Loading></Loading>
-        :
-
-
-        <div>
-          <h1 className='mt-5  w-75 textStyle  container'>List of employees</h1>
-
-          <TableC displayData={allEmployee} removeEmp={deleteEmployee}></TableC>
-        </div>}
-
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

@@ -2,27 +2,41 @@ import BASE_URL from "./baseurl";
 import { commonRequest } from "./commonReq";
 
 //register
-export const registerEmployee=async(body,headers)=>{
-    return commonRequest('POST',`${BASE_URL}/employees/register`,body,headers)
+export const postRegistrationData=async(body)=>{
+    return commonRequest('POST',`${BASE_URL}/register`,body)
 }
 
-//get employees
-export const getEmployees=async(searchData)=>{
-    return commonRequest('GET',`${BASE_URL}/employees/getEmployees?search=${searchData}`,"")
+//login
+export const loginUser=async(body)=>{
+    return commonRequest('POST',`${BASE_URL}/signin`,body)
 }
 
-//get single employee data
-export const getSingleEmployees=async(id)=>{
-    return commonRequest('GET',`${BASE_URL}/employees/getSingleEmployee/${id}`,"")
+//add new post
+export const addNewPost=async(body,headers)=>{
+    return commonRequest('POST',`${BASE_URL}/newpost`,body,headers)
 }
 
-//delete single employee data
-export const deleteEmp=async(id)=>{
-    return commonRequest('DELETE',`${BASE_URL}/employees/deleteEmp/${id}`,"")
+// to get all posts
+export const allPosts=async()=>{
+    return commonRequest('GET',`${BASE_URL}/getallposts`,"")
 }
 
-//edit employee
-export const editEmpl=async(id,body,header)=>{
-    return commonRequest('POST',`${BASE_URL}/employees/editEmployee/${id}`,body,header)
-    
+// to get single user posts
+export const singleUserPosts=async(id)=>{
+    return commonRequest('GET',`${BASE_URL}/userposts/${id}`,"")
+}
+
+// to get singleposts
+export const singlePost=async(id)=>{
+    return commonRequest('GET',`${BASE_URL}/singlepost/${id}`,"")
+}
+
+// to delete singleposts
+export const deletePost=async(id)=>{
+    return commonRequest('DELETE',`${BASE_URL}/deletepost/${id}`,"")
+}
+
+// edit singleposts
+export const editPostContent=async(body,id)=>{
+    return commonRequest('PUT',`${BASE_URL}/editpost/${id}`,body)
 }

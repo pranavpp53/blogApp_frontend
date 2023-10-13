@@ -1,0 +1,24 @@
+.userposts-noposts{
+    background-image: url("https://i.postimg.cc/XJfGnJMF/9264885.jpg");
+    width: 70%;
+    height: 40rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    align-items: center;
+    margin-top: 48px;
+
+}
+.userposts-container{
+    display: flex;
+    justify-content: space-evenly;
+}
+.userposts-headerTitleLg {
+    position: absolute;
+    top: 17%;
+    font-size: 40px;
+  }
+  .user-button{
+    width: 80px;
+    border: none;
+    font-size: 20px;
+  }

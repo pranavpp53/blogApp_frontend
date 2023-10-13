@@ -1,10 +1,110 @@
-img{
-    width: 45px;
-    height: 45px;
-}
-.textStyle{
-    font-family: 'Dancing Script', cursive;
-}
-button{
-    color: black;
-}
+
+  
+  .headerTitles {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Lora", serif;
+    color: #444;
+  }
+  
+  .headerTitleSm {
+    position: absolute;
+    top: 18%;
+    font-size: 20px;
+  }
+  
+  .headerTitleLg {
+    position: absolute;
+    top: 8%;
+    font-size: 100px;
+  }
+  
+  .headerImg {
+    width: 100%;
+    height: 300px;
+    margin-top: 80px;
+    object-fit: cover;
+  }
+
+  .post {
+    width: 30rem;
+    margin: 0px 25px 40px 25px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .postImg {
+    width: 30rem;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 7px;
+  }
+  
+  .postInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  
+  .postTitle {
+    font-family: "Josefin Sans", Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  
+  .postDate {
+    font-family: "Lora", serif;
+    font-style: italic;
+    font-size: 21px;
+    font-weight: 400;
+    color: #5c5a5a;
+  }
+  
+  .postDesc {
+    font-family: "Varela Round", Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    color: #444444;
+    margin-top: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+  }
+
+  .home-post-container{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    border-bottom: 1px solid rgb(229, 226, 226);
+
+  }
+  .pagination{
+    display: flex;
+    justify-content: center;
+  }
+  .page-button{
+	width: 2rem;
+	height: 2.5rem;
+	margin-right: 0.25rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
+	display: inline-flex;
+	flex-shrink: 0;
+	justify-content: center;
+	align-items: center;
+  border-radius: 10px;
+  font-size: 20px;
+  border: 1px solid rgb(144, 144, 180);
+  color:rgb(58, 58, 104) ;
+  }
+
+  
+
+   
