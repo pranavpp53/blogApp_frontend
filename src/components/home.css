@@ -35,7 +35,7 @@
   }
   
   .postImg {
-    width: 30rem;
+    width: 100%;
     height: 280px;
     object-fit: cover;
     border-radius: 7px;
@@ -83,6 +83,7 @@
     justify-content: space-evenly;
     flex-wrap: wrap;
     border-bottom: 1px solid rgb(229, 226, 226);
+    width: 100%;
 
   }
   .pagination{
@@ -105,6 +106,35 @@
   color:rgb(58, 58, 104) ;
   }
 
+  .eh115{
+    height: 500px;
+  }
+img{
+  background-size: cover;
+}
+.home-img-1{
+  margin-bottom:500px;
+  font-size: 100px;
+  font-family: 'Times New Roman', serif;
+}
+.home-img-2{
+  margin-bottom:500px;
+  font-size: 100px;
+  font-family: 'Times New Roman', serif;
+}
+.home-img-3{
+  margin-bottom:310px;
+  font-size: 100px;
+  font-family: 'Times New Roman', serif;
+}
+
+
+  
+
+
+
+
+  
   
 
    
